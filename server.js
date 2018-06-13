@@ -39,15 +39,6 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
-// CHECK TO SEE IF MONGOOSE CONNECTED
-db.on("error", function (error) {
-    console.log("Mongoose Error: ", error);
-});
-
-db.once("open", function () {
-    console.log("Mongoose Connected!")
-});
-
 // ROUTES 
 
 // GET REQUEST ROUTE TO RENDER HOME.HANDLEBARS
@@ -81,26 +72,32 @@ app.get("/scrape", function (req, res) {
 
             var result = {};
 
-            result.title = $(this)
+            result.title = $(element)
                 .children("h2.headline")
+                .children("a")
                 .text();
-            result.summary = $(this)
+            result.summary = $(element)
                 .children("p.summary")
                 .text();
-            result.link = $(this)
+            result.link = $(element)
+                .children("h2.headline")
                 .children("a")
                 .attr("href");
 
-            db.Article.create(result)
-                .then(function (dbArticle) {
-                    console.log(dbArticle);
-                })
-                .catch(function (err) {
-                    return res.json(err);
-                });
+            if (result.title && result.summary && result.link) {
+
+                db.Article.create(result)
+                    .then(function (dbArticle) {
+                        console.log(dbArticle);
+                    })
+                    .catch(function (err) {
+                        return res.redirect("/");
+                    });
+            }
+
         });
 
-        res.send("Your Scrape is Complete!")
+        res.redirect("/")
     });
 });
 
@@ -119,7 +116,7 @@ app.get("/articles", function (req, res) {
 // POPULATE IT WITH IT'S NOTE
 app.get("/articles/:id", function (req, res) {
     db.Article.find({ _id: req.params.id })
-        .populate("notes")
+        .populate("note")
         .then(function (dbArticle) {
             res.json(dbArticle);
         })
@@ -140,8 +137,33 @@ app.post("/articles/save/:id", function (req, res) {
         });
 });
 
+// A POST ROUTE TO DELETE AN ARTICLE
+app.post("/articles/delete/:id", function (req, res) {
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: false })
+        .exec(function (err, docs) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(docs);
+            }
+        });
+});
 
+// POST ROUTE TO CREATE/SAVE/UPDATE A NEW NOTE ASSOCIATED WITH AN ARTICLE
+app.post("/note/save/:id", function (req, res) {
+    db.Note.create(req.body)
+        .then(function (dbNote) {
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { note: dbNote._id } }, { new: true })
+        })
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err)
+        });
+});
 
+// DELETE ROUTE TO REMOVE A NOTE
 
 
 // STARTS THE SEVER TO BEGIN LISTENING 

@@ -11,22 +11,22 @@
             <a class="nav-link" href="/saved"> Saved Articles </a>
         </li>
         <li class="nav-item">
-            <button type="button" class="btn btn-primary" id="scrape"> Scrape Articles </button>
+            <button type="button" class="btn btn-primary scrape"> Scrape Articles </button>
         </li>
     </ul>
 </nav>
 <!-- END NAV BAR -->
 
-<div class="container">
-
-    <!-- START OF JUMBOTRON -->
-    <div class="col-md-12 jumbotron">
-        <div class="text-center">
-            <h1> Mongo Scraper </h1>
-            <h3> New York Times Business Edition </h3>
-        </div>
+<!-- START OF JUMBOTRON -->
+<div class="col-md-12 jumbotron">
+    <div class="text-center">
+        <h1> Mongo Scraper </h1>
+        <h3> New York Times: Business Edition </h3>
     </div>
-    <!-- END OF JUMBOTRON -->
+</div>
+<!-- END OF JUMBOTRON -->
+
+<div class="container">
 
     <!-- START OF ARTICLE SECTION -->
     <div class="col-md-12">
@@ -40,7 +40,7 @@
                 <p class="card-summary"> {{this.summary}} </p>
                 <a href={{this.link}}> {{this.link}} </a>
                 <br>
-                <button type="button" class="btn btn-primary" id="saveArticle" data-id={{this._id}}> Save Article </button>
+                <button type="button" class="btn btn-primary saveArticle" data-id={{this._id}}> Save Article </button>
             </div>
         </div>
 

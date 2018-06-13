@@ -14,16 +14,16 @@
 </nav>
 <!-- END NAV BAR -->
 
-<div class="container">
-
-    <!-- START OF JUMBOTRON -->
-    <div class="col-md-12 jumbotron">
-        <div class="text-center">
-            <h1> Saved Articles </h1>
-            <h3> Your Saved Articles </h3>
-        </div>
+<!-- START OF JUMBOTRON -->
+<div class="col-md-12 jumbotron">
+    <div class="text-center">
+        <h1> Saved Articles </h1>
+        <h3> Your Saved Articles </h3>
     </div>
-    <!-- END OF JUMBOTRON -->
+</div>
+<!-- END OF JUMBOTRON -->
+
+<div class="container">
 
     <!-- START OF ARTICLE SECTION -->
     <div class="col-md-12">
@@ -37,8 +37,8 @@
                 <p class="card-summary"> {{this.summary}} </p>
                 <a href={{this.link}}> {{this.link}} </a>
                 <br>
-                <button type="button" class="btn btn-primary" id="addNote" data-id={{this._id}}> Add Note </button>
-                <button type="button" class="btn btn-warning" id="deleteArticle" data-id={{this._id}}> Delete </button>
+                <button type="button" class="btn btn-primary addNote" data-id={{this._id}} data-toggle="modal" data-target="#noteModal"> Add Note </button>
+                <button type="button" class="btn btn-warning deleteArticle" data-id={{this._id}}> Delete </button>
             </div>
         </div>
 
