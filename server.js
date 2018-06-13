@@ -1,0 +1,150 @@
+// REQUIRE PACKAGES/DEPENDENCIES
+var express = require("express");
+var exphbs = require("express-handlebars");
+var bodyParser = require("body-parser");
+var logger = require("morgan");
+var mongoose = require("mongoose");
+var cheerio = require("cheerio");
+var axios = require("axios")
+var request = require("request");
+
+// REQUIRE ALL MODELS
+var db = require("./models");
+
+var PORT = process.env.PORT || 3000;
+
+// INITIALIZE EXPRESS
+var app = express();
+
+// USE MORGAN LOGGER FOR LOGGING REQUESTS
+app.use(logger("dev"));
+
+// USE EXPRESS.STATIC TO SERVE THE PUBLIC FOLDER AS A STATIC DIRECTORY
+app.use(express.static("public"));
+
+// USE BODY-PARSER FOR HANDLING FORM SUBMISSIONS
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
+
+// CONNECT TO MONGO DB
+// IF DEPLOYED, USE THE DEPLOYED DATABASE.
+// OTHERWISE USE THE LOCAL MONGOHEADLINES DATABASE
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines"
+
+// SET MONGOOSE TO LEVERAGE BUILT IN JAVASCRIPT ES6 PROMISES
+// CONNECT TO MONGO DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
+
+// CHECK TO SEE IF MONGOOSE CONNECTED
+db.on("error", function (error) {
+    console.log("Mongoose Error: ", error);
+});
+
+db.once("open", function () {
+    console.log("Mongoose Connected!")
+});
+
+// ROUTES 
+
+// GET REQUEST ROUTE TO RENDER HOME.HANDLEBARS
+app.get("/", function (req, res) {
+    db.Article.find({ "saved": false }, function (err, data) {
+        var hbsObject = {
+            article: data
+        };
+        res.render("home", hbsObject)
+    });
+});
+
+// GET REQUEST ROUTE TO RENDER SAVED.HANDLEBARS
+app.get("/saved", function (req, res) {
+    db.Article.find({ "saved": true })
+        .populate("notes")
+        .exec(function (err, articles) {
+            var hbsObject = {
+                article: articles
+            }
+            res.render("saved", hbsObject);
+        });
+});
+
+// A GET REQUEST ROUTE TO SCRAPE NYT WEBSITE
+app.get("/scrape", function (req, res) {
+    axios.get("https://www.nytimes.com/section/business").then(function (response) {
+        var $ = cheerio.load(response.data);
+
+        $("div.story-body").each(function (i, element) {
+
+            var result = {};
+
+            result.title = $(this)
+                .children("h2.headline")
+                .text();
+            result.summary = $(this)
+                .children("p.summary")
+                .text();
+            result.link = $(this)
+                .children("a")
+                .attr("href");
+
+            db.Article.create(result)
+                .then(function (dbArticle) {
+                    console.log(dbArticle);
+                })
+                .catch(function (err) {
+                    return res.json(err);
+                });
+        });
+
+        res.send("Your Scrape is Complete!")
+    });
+});
+
+// A GET REQUEST ROUTE FOR GETTING ALL ARTICLES FROM THE DB
+app.get("/articles", function (req, res) {
+    db.Article.find({})
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        })
+});
+
+// A GET REQUEST ROUTE FOR GETTING A SPECIFIC ARTICLE BY THE ID
+// POPULATE IT WITH IT'S NOTE
+app.get("/articles/:id", function (req, res) {
+    db.Article.find({ _id: req.params.id })
+        .populate("notes")
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(error)
+        })
+});
+
+// A POST ROUTE TO SAVE AN ARTICLE
+app.post("/articles/save/:id", function (req, res) {
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true })
+        .exec(function (err, docs) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(docs);
+            }
+        });
+});
+
+
+
+
+
+// STARTS THE SEVER TO BEGIN LISTENING 
+app.listen(PORT, function () {
+    console.log("App listening on PORT " + PORT);
+});
