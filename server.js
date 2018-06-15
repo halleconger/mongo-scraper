@@ -153,7 +153,7 @@ app.post("/articles/delete/:id", function (req, res) {
 app.post("/note/save/:id", function (req, res) {
     db.Note.create(req.body)
         .then(function (dbNote) {
-            return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { note: dbNote._id } }, { new: true })
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true })
         })
         .then(function (dbArticle) {
             res.json(dbArticle);
@@ -162,9 +162,6 @@ app.post("/note/save/:id", function (req, res) {
             res.json(err)
         });
 });
-
-// DELETE ROUTE TO REMOVE A NOTE
-
 
 // STARTS THE SEVER TO BEGIN LISTENING 
 app.listen(PORT, function () {
