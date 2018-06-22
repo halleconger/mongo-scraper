@@ -1,0 +1,99 @@
+.jumbotron {
+    background-image: url("../images/mongoscraper2.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 450px;
+    opacity: 0.8;
+    color: white;
+    font-family: 'Cinzel', serif;
+    border-top: 3px double black;
+    border-bottom: 3px solid black;
+}
+
+h1 {
+    font-size: 80px;
+    color: white;
+    font-weight: bold;
+    padding-top: 80px;
+}
+
+h3 {
+    font-size: 30px;
+}
+
+.navbar {
+    background-image: url("../images/grey.png");
+}
+
+
+body {
+    background-image: url("../images/grey.png")
+}
+
+.card {
+    font-family: 'Comfortaa', cursive;
+    border: 1px black solid;
+}
+
+.card-header {
+    border-bottom: 1px black solid;
+    color: white;
+    background: black;
+    opacity: 0.8;
+}
+
+.scrape {
+    background: black;
+    color: white;
+    border: white;
+    opacity: 0.8;
+}
+
+#navBar {
+    font-family: 'Comfortaa', cursive;
+}
+
+.saveArticle {
+    margin-top: 20px;
+    margin-left: 900px;
+    background: black;
+    color: white;
+    border: white;
+    opacity: 0.8;
+}
+
+.saveArticle:hover {
+    background: grey;
+    color: white;
+}
+
+.articleNote {
+    margin-top: 20px;
+    background: black;
+    color: white;
+    border: white;
+    opacity: 0.8;
+    margin-left: 900px;
+}
+
+.articleNote:hover {
+    background: grey;
+    color: white;
+}
+
+.deleteArticle {
+    margin-top: 10px;
+    background: darkgrey;
+    color: white;
+    border: white;
+    opacity: 0.8;
+    margin-left: 900px;
+    width: 122px;
+}
+
+.deleteArticle:hover {
+    background-color: grey;
+    color: white;
+}

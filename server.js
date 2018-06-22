@@ -175,6 +175,18 @@ app.get("/note/:id", function(req, res) {
     })
 })
 
+// DELETE ROUTE TO DELETE NOTE
+// app.delete("/note/delete", function(req, res) {
+//     ab.Note.delete({ _id: req.params.id })
+//     .then(function(err, docs) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.send(docs);
+//         }
+//     })
+// })
+
 // STARTS THE SEVER TO BEGIN LISTENING 
 app.listen(PORT, function () {
     console.log("App listening on PORT " + PORT);

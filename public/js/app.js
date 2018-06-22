@@ -34,7 +34,6 @@ $(".deleteArticle").on("click", function () {
 });
 
 // OPEN NOTE MODAL
-// NOT WORKING - SUPPOSED TO SHOW MODAL WHERE USER CAN ENTER TITLE AND NOTE
 $(".articleNote").on("click", function () {
     var articleId = $(this).data("id");
     var noteId = $(this).data("noteid")
@@ -46,7 +45,8 @@ $(".articleNote").on("click", function () {
         console.log(data)
         if (data[0]._id) {
             $("#postedNotes").html("<p>" + data[0].title + ":</p> " + data[0].body)
-            $("#postedNotes").append("<button class='btn btn-primary' data-id=" + data[0]._id + " id='delete-note'>Delete Note</button>")
+            
+            // $("#postedNotes").append("<button class='btn btn-primary' data-id=" + data[0]._id + " id='delete-note'>Delete Note</button>")
         }
 
         $(".saveNote").data("id", articleId);
@@ -58,7 +58,6 @@ $(".articleNote").on("click", function () {
 
 
 // SAVE NOTE BUTTON
-// NOT WORKING - THIS SHOULD SAVE THE NOTE
 $(".saveNote").on("click", function () {
     var thisId = $(this).data("id");
     var title = $("#titleInput").val().trim();
@@ -79,4 +78,23 @@ $(".saveNote").on("click", function () {
         });
     }
 });
+
+// DELETE NOTE BUTTON
+
+// $("#delete-note").on("click", function() {
+//     var thisId = $(this).data("id");
+//     var title = $("#titleInput").val().trim();
+//     var body = $("#bodyInput").val().trim();
+
+//     $.ajax({
+//       type: "DELETE",
+//       url: "/note/delete/" + thisId,
+//       data: {
+//           title,
+//           body
+//       }
+//     }).then(function() {
+//         window.location.href = "/saved"
+//     })
+//   });
 
