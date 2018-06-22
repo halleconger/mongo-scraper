@@ -37,7 +37,7 @@
                 <p class="card-summary"> {{this.summary}} </p>
                 <a href={{this.link}}> {{this.link}} </a>
                 <br>
-                <button type="button" class="btn btn-primary articleNote" data-id={{this._id}} data-toggle="modal" data-target="#noteModal">
+                <button type="button" class="btn btn-primary articleNote" data-id={{this._id}} data-noteid={{this.note._id}} data-toggle="modal" data-target="#noteModal">
                     Article Note </button>
                 <button type="button" class="btn btn-warning deleteArticle" data-id={{this._id}}> Delete </button>
             </div>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary saveNote" data-id={{this.id}}>Save Note</button>
+                    <button type="button" class="btn btn-primary saveNote">Save Note</button>
                 </div>
             </div>
         </div>

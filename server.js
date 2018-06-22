@@ -54,12 +54,13 @@ app.get("/", function (req, res) {
 // GET REQUEST ROUTE TO RENDER SAVED.HANDLEBARS
 app.get("/saved", function (req, res) {
     db.Article.find({ "saved": true })
-        .populate("notes")
-        .exec(function (err, articles) {
-            var hbsObject = {
-                article: articles
-            }
-            res.render("saved", hbsObject);
+    .populate("note")
+    .then(function (dbArticle) {
+        var hbsObject = {
+            article: dbArticle
+        }
+        console.log(dbArticle);
+        res.render("saved", hbsObject);
         });
 });
 
@@ -162,6 +163,17 @@ app.post("/note/save/:id", function (req, res) {
             res.json(err)
         });
 });
+
+// GET ROUTE TO GET NOTE
+app.get("/note/:id", function(req, res) {
+    db.Note.find({ _id: req.params.id })
+    .then(function(dbNote) {
+        console.log(dbNote)
+        res.json(dbNote)
+    }).catch(function (err) {
+        res.json(err);
+    })
+})
 
 // STARTS THE SEVER TO BEGIN LISTENING 
 app.listen(PORT, function () {
