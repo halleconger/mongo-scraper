@@ -44,7 +44,7 @@ $(".articleNote").on("click", function () {
     }).then(function (data, err) {
         console.log(data)
         if (data[0]._id) {
-            $("#postedNotes").html("<p>" + data[0].title + ":</p> " + data[0].body)
+            $("#postedNotes").html("<p>" + data[0].title + ":</p> " + data[0].body + "<hr>")
             
             // $("#postedNotes").append("<button class='btn btn-primary' data-id=" + data[0]._id + " id='delete-note'>Delete Note</button>")
         }

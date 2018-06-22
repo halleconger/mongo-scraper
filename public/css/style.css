@@ -4,7 +4,7 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    height: 450px;
+    height: 575px;
     opacity: 0.8;
     color: white;
     font-family: 'Cinzel', serif;
@@ -16,7 +16,7 @@ h1 {
     font-size: 80px;
     color: white;
     font-weight: bold;
-    padding-top: 80px;
+    padding-top: 125px;
 }
 
 h3 {
@@ -83,6 +83,7 @@ body {
     color: white;
 }
 
+
 .deleteArticle {
     margin-top: 10px;
     background: darkgrey;
@@ -96,4 +97,30 @@ body {
 .deleteArticle:hover {
     background-color: grey;
     color: white;
+}
+
+.modal-header {
+    border-bottom: 1px black solid;
+    color: white;
+    background: darkgrey;
+    opacity: 0.8;
+    font-family: 'Comfortaa', cursive;
+}
+
+.modal-body {
+    font-family: 'Comfortaa', cursive;
+}
+
+.modal-content {
+    border:black 2px solid;
+}
+
+input {
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+textArea {
+    width: 100%;
+    height: 200px;
 }
