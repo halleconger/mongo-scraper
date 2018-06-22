@@ -124,3 +124,28 @@ textArea {
     width: 100%;
     height: 200px;
 }
+
+.saveNote {
+    background: black;
+    color: white;
+    border: white;
+    opacity: 0.8;
+}
+
+.saveNote:hover {
+    background: grey;
+    color: white;
+}
+
+#closeNote {
+    background: darkgrey;
+    color: white;
+    border: white;
+    opacity: 0.8;
+}
+
+
+#closeNote:hover {
+    background-color: grey;
+    color: white;
+}
